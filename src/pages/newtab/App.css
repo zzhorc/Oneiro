@@ -1,10 +1,12 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: cupcake --default, halloween --prefersdark;
+  logs: false;
+}
+
 @import "../../../assets/fonts/fonts.css";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
-/* 定义一个CSS变量来存储字体名称，默认使用楷体 */
 :root {
   --custom-font-name: 楷体;
 }
