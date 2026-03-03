@@ -15,8 +15,5 @@ node_modules
 .env.submit
 /components/tts.js
 
-# Release packages
-oneiro-*.zip
-
-# Release notes (local only)
-release/
+# AI assistance workflows
+.agents/
