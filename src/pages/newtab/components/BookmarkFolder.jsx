@@ -8,7 +8,7 @@ import BookmarkItem from "./BookmarkItem";
  * 使用 createPortal 将弹出面板渲染到 body 层级
  * 仅通过 ✕ 关闭按钮关闭，避免嵌套层级被一起关闭
  */
-export default function BookmarkFolder({ folder, depth = 0, iconType }) {
+export default function BookmarkFolder({ folder, depth = 0, iconType, layoutType = "grid" }) {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleOpen = useCallback((e) => {
@@ -24,8 +24,8 @@ export default function BookmarkFolder({ folder, depth = 0, iconType }) {
 
     // 计算嵌套层级的 z-index 和尺寸
     const zBase = 200 + depth * 10;
-    // 每层嵌套缩小 3%，最小 60vw
-    const panelWidth = Math.max(60, 78 - depth * 3);
+    // 每层嵌套缩小 4%，基础取 94vw，确保在 Popup (460px) 能撑满绝大部分面积
+    const panelWidth = Math.max(80, 94 - depth * 4);
 
     const folderPanel = isOpen ? createPortal(
         <>
@@ -35,12 +35,12 @@ export default function BookmarkFolder({ folder, depth = 0, iconType }) {
                 style={{ zIndex: zBase - 1 }}
                 onClick={handleClose}
             />
-            {/* 面板 */}
+            {/* 面板 - 追加 popup-mode 让内部图标能正确享有同等缩放约束 */}
             <div
-                className="bookmark-folder-panel animate__animated animate__fadeIn animate__faster"
+                className="bookmark-folder-panel popup-mode animate__animated animate__fadeIn animate__faster"
                 style={{
                     zIndex: zBase,
-                    width: `min(${panelWidth}vw, 640px)`,
+                    width: `min(${panelWidth}vw, 800px)`,
                 }}
             >
                 <div className="bookmark-folder-panel-header">
@@ -53,10 +53,10 @@ export default function BookmarkFolder({ folder, depth = 0, iconType }) {
                         ✕
                     </button>
                 </div>
-                <div className="bookmark-folder-grid">
+                <div className={`bookmark-folder-grid layout-${layoutType}`}>
                     {folder.children.map((child) =>
                         child.children ? (
-                            <BookmarkFolder key={child.id} folder={child} depth={depth + 1} iconType={iconType} />
+                            <BookmarkFolder key={child.id} folder={child} depth={depth + 1} iconType={iconType} layoutType={layoutType} />
                         ) : (
                             <BookmarkItem key={child.id} bookmark={child} iconType={iconType} />
                         )

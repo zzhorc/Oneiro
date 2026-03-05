@@ -7,7 +7,7 @@ export default defineConfig({
     plugins: [tailwindcss()],
   }),
   manifest: {
-    permissions: ["bookmarks", "favicon"],
+    permissions: ["bookmarks", "favicon", "storage"],
     author: "xxnuo",
     name: "Oneiro",
     description: "Oneiro - 源自希腊语“梦”（oneiros），在新标签页上展示中国经典诗词和书签。",

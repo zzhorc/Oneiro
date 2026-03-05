@@ -1,7 +1,7 @@
 {
   "name": "oneiro",
   "description": "Oneiro - A Chrome extension for new tab with Chinese poems and bookmarks",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "scripts": {
     "pre": "wxt prepare",
     "dev": "wxt",

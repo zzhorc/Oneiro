@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { browser } from "wxt/browser";
 
 /**
  * 单个书签图标组件
@@ -50,12 +51,21 @@ export default function BookmarkItem({ bookmark, iconType = "favicon" }) {
         document.body
     ) : null;
 
+    const handleClick = useCallback((e) => {
+        // 让按住 Cmd/Ctrl 点击的新标签页原生行为正常工作
+        if (e.ctrlKey || e.metaKey || e.button === 1) return;
+
+        e.preventDefault();
+        browser.tabs.create({ url: bookmark.url, active: true });
+    }, [bookmark.url]);
+
     return (
         <a
             ref={itemRef}
             href={bookmark.url}
             className="bookmark-item group"
             title=""
+            onClick={handleClick}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >

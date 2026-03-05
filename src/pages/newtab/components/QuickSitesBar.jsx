@@ -9,7 +9,7 @@ import QuickSiteEditor from "./QuickSiteEditor";
  * 常用网站展示栏
  * 复用 BookmarkItem 组件，末尾添加「+」按钮，支持自动折叠
  */
-export default function QuickSitesBar({ sites, addSite, editSite, removeSite, iconType, visibleRows, isExpanded, toggleExpand }) {
+export default function QuickSitesBar({ sites, addSite, editSite, removeSite, iconType, visibleRows, isExpanded, toggleExpand, layoutType = "grid" }) {
     const [editorState, setEditorState] = useState(null); // null | { mode: "add" } | { mode: "edit", site }
     const [contextMenu, setContextMenu] = useState(null); // null | { siteId, x, y }
     const gridRef = useRef(null);
@@ -133,7 +133,7 @@ export default function QuickSitesBar({ sites, addSite, editSite, removeSite, ic
         <div className="quicksites-bar-wrapper">
             <div
                 ref={gridRef}
-                className="quicksites-bar-grid"
+                className={`quicksites-bar-grid layout-${layoutType}`}
                 style={{
                     maxHeight: maxHeight,
                     overflow: maxHeight !== "none" ? "hidden" : "visible",

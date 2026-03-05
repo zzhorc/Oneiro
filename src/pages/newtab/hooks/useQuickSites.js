@@ -1,6 +1,21 @@
 import { useState, useCallback, useEffect } from "react";
 import { browser } from "wxt/browser";
 
+// 安全获取 storage API 的辅助函数
+const getStorage = () => {
+    try {
+        if (typeof browser !== "undefined" && browser.storage && browser.storage.local) {
+            return browser.storage.local;
+        }
+        if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
+            return chrome.storage.local;
+        }
+    } catch (e) {
+        console.warn("Storage API access inhibited:", e);
+    }
+    return null;
+};
+
 const STORAGE_KEY = "quickSites";
 
 /**
@@ -35,10 +50,53 @@ export function useQuickSites() {
             return [];
         }
     });
+    const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(sites));
-    }, [sites]);
+        (async () => {
+            const storage = getStorage();
+            if (!storage) {
+                console.warn("Storage API not available, falling back to localStorage.");
+                setIsLoaded(true);
+                return;
+            }
+
+            try {
+                const res = await storage.get(STORAGE_KEY);
+                if (res[STORAGE_KEY] && Array.isArray(res[STORAGE_KEY])) {
+                    setSites(res[STORAGE_KEY]);
+                } else {
+                    // 平滑迁移：老用户的 localStorage 兜底
+                    const localData = localStorage.getItem(STORAGE_KEY);
+                    if (localData) {
+                        const parsed = JSON.parse(localData);
+                        if (parsed && Array.isArray(parsed) && parsed.length > 0) {
+                            setSites(parsed);
+                            await storage.set({ [STORAGE_KEY]: parsed });
+                            setIsLoaded(true);
+                            return;
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error("Storage load error:", e);
+            }
+            setIsLoaded(true);
+        })();
+    }, []);
+
+    useEffect(() => {
+        if (isLoaded) {
+            const storage = getStorage();
+            if (storage) {
+                storage.set({ [STORAGE_KEY]: sites }).catch(err => {
+                    console.error("Failed to save to storage:", err);
+                });
+            }
+            // 为了多页面同步，依然在 localStorage 做一个冗余备份
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(sites));
+        }
+    }, [sites, isLoaded]);
 
     const addSite = useCallback((title, url) => {
         const normalizedUrl = url.startsWith("http") ? url : `https://${url}`;
