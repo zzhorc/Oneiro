@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
-@plugin "daisyui" {
+@import "../../../assets/fonts/fonts.css";
+
+@plugin "daisyui/index.js" {
   themes: cupcake --default, halloween --prefersdark;
   logs: false;
 }
-
-@import "../../../assets/fonts/fonts.css";
 
 
 :root {
