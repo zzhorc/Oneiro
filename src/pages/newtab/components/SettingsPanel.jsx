@@ -9,11 +9,15 @@ import {
   IoBookmarksOutline as BookmarkIcon,
   IoGlobeOutline as GlobeIcon,
   IoChevronDownOutline as ChevronDownIcon,
-  IoChevronUpOutline as ChevronUpIcon
+  IoChevronUpOutline as ChevronUpIcon,
+  IoListOutline as ManageIcon,
+  IoColorPaletteOutline as VisualIcon
 } from "react-icons/io5";
 import { MdTimelapse as SyncIcon } from "react-icons/md";
 import { BiFontFamily as FontIcon } from "react-icons/bi";
 import CATEGORIES from "sentences-bundle/categories.json";
+import BookmarkManager from "./BookmarkManager";
+import VisualSettingsPanel from "./VisualSettingsPanel";
 
 /**
  * 统一设置面板
@@ -33,9 +37,12 @@ export default function SettingsPanel({
   onToggleQuickSites,
   selectedCategories,
   onToggleCategory,
+  bookmarks = [],
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isCategoriesExpanded, setIsCategoriesExpanded] = useState(false);
+  const [isBookmarkManagerOpen, setIsBookmarkManagerOpen] = useState(false);
+  const [isVisualSettingsOpen, setIsVisualSettingsOpen] = useState(false);
   const panelRef = useRef(null);
 
   const togglePanel = useCallback(() => {
@@ -104,6 +111,21 @@ export default function SettingsPanel({
             <span className="settings-row-value">{iconTypeLabel}</span>
           </button>
 
+          <button 
+            className="settings-row" 
+            onClick={() => {
+              setIsOpen(false);
+              setIsVisualSettingsOpen(true);
+            }} 
+            type="button"
+          >
+            <span className="settings-row-icon">
+              <VisualIcon className="w-5 h-5" />
+            </span>
+            <span className="settings-row-label">视觉定制</span>
+            <span className="settings-row-value">高级</span>
+          </button>
+
           {/* 分隔线 */}
           <div className="settings-divider" />
 
@@ -131,13 +153,30 @@ export default function SettingsPanel({
           </button>
 
           {showBookmarks && (
-            <button className="settings-row" onClick={onRowsCycle} type="button">
-              <span className="settings-row-icon">
-                <span className="settings-rows-badge">{visibleRows}</span>
-              </span>
-              <span className="settings-row-label">书签行数</span>
-              <span className="settings-row-value">{visibleRows} 行</span>
-            </button>
+            <>
+              <button className="settings-row" onClick={onRowsCycle} type="button">
+                <span className="settings-row-icon">
+                  <span className="settings-rows-badge">{visibleRows}</span>
+                </span>
+                <span className="settings-row-label">书签行数</span>
+                <span className="settings-row-value">{visibleRows} 行</span>
+              </button>
+              
+              <button 
+                className="settings-row" 
+                onClick={() => {
+                  setIsOpen(false);
+                  setIsBookmarkManagerOpen(true);
+                }} 
+                type="button"
+              >
+                <span className="settings-row-icon">
+                  <ManageIcon className="w-5 h-5" />
+                </span>
+                <span className="settings-row-label">书签管理</span>
+                <span className="settings-row-value">高级</span>
+              </button>
+            </>
           )}
           {/* 分类别 */}
           <div className="settings-divider" />
@@ -184,6 +223,18 @@ export default function SettingsPanel({
           )}
         </div>
       )}
+
+      <BookmarkManager
+        isOpen={isBookmarkManagerOpen}
+        onClose={() => setIsBookmarkManagerOpen(false)}
+        bookmarks={bookmarks}
+        iconType={iconType}
+      />
+
+      <VisualSettingsPanel
+        isOpen={isVisualSettingsOpen}
+        onClose={() => setIsVisualSettingsOpen(false)}
+      />
     </div>
   );
 }
