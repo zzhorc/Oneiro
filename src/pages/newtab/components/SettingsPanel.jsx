@@ -11,7 +11,8 @@ import {
   IoChevronDownOutline as ChevronDownIcon,
   IoChevronUpOutline as ChevronUpIcon,
   IoListOutline as ManageIcon,
-  IoColorPaletteOutline as VisualIcon
+  IoColorPaletteOutline as VisualIcon,
+  IoSearchOutline as SearchIcon
 } from "react-icons/io5";
 import { MdTimelapse as SyncIcon } from "react-icons/md";
 import { BiFontFamily as FontIcon } from "react-icons/bi";
@@ -38,6 +39,11 @@ export default function SettingsPanel({
   selectedCategories,
   onToggleCategory,
   bookmarks = [],
+  favoriteContentCount = 0,
+  showFavoriteContentsOnly = false,
+  onToggleFavoriteContentsOnly,
+  poemSearchEngineLabel = "百度",
+  onSearchEngineCycle,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isCategoriesExpanded, setIsCategoriesExpanded] = useState(false);
@@ -111,6 +117,14 @@ export default function SettingsPanel({
             <span className="settings-row-value">{iconTypeLabel}</span>
           </button>
 
+          <button className="settings-row" onClick={onSearchEngineCycle} type="button">
+            <span className="settings-row-icon">
+              <SearchIcon className="w-5 h-5" />
+            </span>
+            <span className="settings-row-label">搜索引擎</span>
+            <span className="settings-row-value">{poemSearchEngineLabel}</span>
+          </button>
+
           <button 
             className="settings-row" 
             onClick={() => {
@@ -149,6 +163,22 @@ export default function SettingsPanel({
             <span className="settings-row-label">常用网站</span>
             <span className={`settings-row-toggle ${showQuickSites ? "is-on" : ""}`}>
               {showQuickSites ? "开" : "关"}
+            </span>
+          </button>
+
+          <button
+            className={`settings-row ${favoriteContentCount === 0 ? "opacity-50 cursor-not-allowed" : ""}`}
+            onClick={favoriteContentCount > 0 ? onToggleFavoriteContentsOnly : undefined}
+            type="button"
+            disabled={favoriteContentCount === 0}
+            title={favoriteContentCount === 0 ? "暂无收藏内容" : "只展示收藏内容"}
+          >
+            <span className="settings-row-icon">
+              <BookmarkIcon className="w-5 h-5" />
+            </span>
+            <span className="settings-row-label">收藏内容</span>
+            <span className={`settings-row-toggle ${showFavoriteContentsOnly ? "is-on" : ""}`}>
+              {favoriteContentCount} 条 · {showFavoriteContentsOnly ? "开" : "关"}
             </span>
           </button>
 

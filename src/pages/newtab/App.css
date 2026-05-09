@@ -690,7 +690,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.46);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 .bookmark-folder-panel {
@@ -704,21 +706,21 @@
   border-radius: 1.25rem;
   font-family: "LXGW WenKai Light", 楷体, serif;
   /* 使用不透明的实色背景 + blur 实现可靠的毛玻璃效果 */
-  background-color: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(28px) saturate(1.8);
-  -webkit-backdrop-filter: blur(28px) saturate(1.8);
+  background-color: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(36px) saturate(1.9);
+  -webkit-backdrop-filter: blur(36px) saturate(1.9);
   box-shadow:
-    0 12px 40px rgba(0, 0, 0, 0.18),
-    0 0 0 1px rgba(0, 0, 0, 0.05);
+    0 18px 56px rgba(0, 0, 0, 0.28),
+    0 0 0 1px rgba(0, 0, 0, 0.08);
 }
 
 /* 深色主题下的文件夹面板 */
 [data-theme="halloween"] .bookmark-folder-panel,
 :root[data-theme="halloween"] .bookmark-folder-panel {
-  background-color: rgba(30, 30, 30, 0.92);
+  background-color: rgba(24, 24, 24, 0.97);
   box-shadow:
-    0 12px 40px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(255, 255, 255, 0.06);
+    0 18px 56px rgba(0, 0, 0, 0.52),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
 .bookmark-folder-panel-header {

@@ -17,8 +17,7 @@ import { useQuickSites } from "./hooks/useQuickSites";
 import { useResponsiveRows } from "./hooks/useResponsiveRows";
 import { useCategories } from "./hooks/useCategories";
 import { useContentEngine } from "./hooks/useContentEngine";
-
-const STORAGE_KEY_BOOKMARKED_CONTENTS = "bookmarkedContents";
+import { usePoemPreferences } from "./hooks/usePoemPreferences";
 
 export default function App() {
   const { theme, toggleTheme } = useTheme();
@@ -41,66 +40,48 @@ export default function App() {
   const { 
     currentContent, 
     getRandomContent, 
-    getRecommendedContent,
-    rateCurrentContent,
+    getRandomContentFromUuids,
     filteredContents
   } = useContentEngine(selectedCategories);
+  const {
+    favoriteContentUuids,
+    favoriteContentSet,
+    showFavoriteContentsOnly,
+    poemSearchEngine,
+    poemSearchEngineLabel,
+    toggleFavoriteContent,
+    toggleFavoriteContentsOnly,
+    cyclePoemSearchEngine,
+  } = usePoemPreferences();
   
   const [poem, setPoem] = useState(null);
   const [isAnimating, setIsAnimating] = useState(true);
-  const [bookmarkedContents, setBookmarkedContents] = useState(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY_BOOKMARKED_CONTENTS);
-      return stored ? new Set(JSON.parse(stored)) : new Set();
-    } catch {
-      return new Set();
-    }
-  });
-  const [useRecommendation, setUseRecommendation] = useState(false);
-
-  const saveBookmarkedContents = useCallback((contents) => {
-    try {
-      localStorage.setItem(STORAGE_KEY_BOOKMARKED_CONTENTS, JSON.stringify([...contents]));
-    } catch (e) {
-      console.error('Failed to save bookmarked contents:', e);
-    }
-  }, []);
 
   const toggleBookmark = useCallback(() => {
     if (!currentContent || !currentContent.uuid) return;
-    
-    setBookmarkedContents(prev => {
-      const next = new Set(prev);
-      if (next.has(currentContent.uuid)) {
-        next.delete(currentContent.uuid);
-      } else {
-        next.add(currentContent.uuid);
-      }
-      saveBookmarkedContents(next);
-      return next;
-    });
-  }, [currentContent, saveBookmarkedContents]);
+    toggleFavoriteContent(currentContent.uuid);
+  }, [currentContent, toggleFavoriteContent]);
 
-  const isCurrentContentBookmarked = currentContent && currentContent.uuid 
-    ? bookmarkedContents.has(currentContent.uuid) 
+  const isCurrentContentBookmarked = currentContent && currentContent.uuid
+    ? favoriteContentSet.has(currentContent.uuid)
     : false;
 
-  const handleRate = useCallback((rating) => {
-    rateCurrentContent(rating);
-  }, [rateCurrentContent]);
-
-  const refreshContent = useCallback(() => {
-    if (useRecommendation) {
-      setPoem(getRecommendedContent(1));
-    } else {
-      setPoem(getRandomContent());
-    }
-  }, [useRecommendation, getRecommendedContent, getRandomContent]);
+  const favoriteRefreshKey = showFavoriteContentsOnly ? favoriteContentUuids.join("|") : "";
 
   useEffect(() => {
     if (filteredContents.length === 0) return;
-    refreshContent();
-  }, [filteredContents, refreshContent]);
+    if (showFavoriteContentsOnly && favoriteContentUuids.length > 0) {
+      setPoem(getRandomContentFromUuids(favoriteContentUuids));
+      return;
+    }
+    setPoem(getRandomContent());
+  }, [
+    filteredContents,
+    showFavoriteContentsOnly,
+    favoriteRefreshKey,
+    getRandomContentFromUuids,
+    getRandomContent,
+  ]);
 
   useEffect(() => {
     if (currentContent) {
@@ -143,31 +124,10 @@ export default function App() {
           <PoemDisplay 
             poem={displayPoem} 
             isAnimating={isAnimating}
-            onRate={handleRate}
             onBookmark={toggleBookmark}
             isBookmarked={isCurrentContentBookmarked}
+            searchEngine={poemSearchEngine}
           />
-
-          <div className="flex justify-center gap-4 mt-6">
-            <button
-              onClick={refreshContent}
-              className="px-4 py-2 rounded-full text-sm bg-base-200/50 hover:bg-base-200/80 transition-colors text-base-content/60 hover:text-base-content"
-              type="button"
-            >
-              换一条
-            </button>
-            <button
-              onClick={() => setUseRecommendation(!useRecommendation)}
-              className={`px-4 py-2 rounded-full text-sm transition-colors ${
-                useRecommendation 
-                  ? "bg-blue-500/20 text-blue-500 hover:bg-blue-500/30" 
-                  : "bg-base-200/50 hover:bg-base-200/80 text-base-content/60 hover:text-base-content"
-              }`}
-              type="button"
-            >
-              {useRecommendation ? "智能推荐" : "随机展示"}
-            </button>
-          </div>
 
           <div className="sections-wrapper">
             {showBookmarks && (
@@ -219,6 +179,11 @@ export default function App() {
           selectedCategories={selectedCategories}
           onToggleCategory={toggleCategory}
           bookmarks={bookmarks}
+          favoriteContentCount={favoriteContentUuids.length}
+          showFavoriteContentsOnly={showFavoriteContentsOnly && favoriteContentUuids.length > 0}
+          onToggleFavoriteContentsOnly={toggleFavoriteContentsOnly}
+          poemSearchEngineLabel={poemSearchEngineLabel}
+          onSearchEngineCycle={cyclePoemSearchEngine}
         />
 
         <div className="fixed bottom-6 right-6 text-sm opacity-15 select-none pointer-events-none">

@@ -208,6 +208,24 @@ export function useContentEngine(selectedCategories = ['i']) {
     return formatted;
   }, [filteredContents]);
 
+  const getRandomContentFromUuids = useCallback((uuids) => {
+    const uuidSet = new Set(uuids || []);
+    const favoriteContents = filteredContents.filter((content) => uuidSet.has(content.uuid));
+
+    if (favoriteContents.length === 0) {
+      return getRandomContentFallback();
+    }
+
+    const randomIndex = Math.floor(Math.random() * favoriteContents.length);
+    const content = favoriteContents[randomIndex];
+    const formatted = formatContentForDisplay(content);
+    setCurrentContent(formatted);
+
+    contentEngine.recordView(content.uuid, content.categoryKey, content.contentType);
+
+    return formatted;
+  }, [filteredContents, getRandomContentFallback]);
+
   const getRecommendedContent = useCallback((count = 1, strategy = null) => {
     const actualStrategy = strategy || recommendationStrategy;
     const recommended = contentEngine.recommendContents(
@@ -286,6 +304,7 @@ export function useContentEngine(selectedCategories = ['i']) {
     
     loadContents,
     getRandomContent,
+    getRandomContentFromUuids,
     getRecommendedContent,
     rateCurrentContent,
     updateFilters,

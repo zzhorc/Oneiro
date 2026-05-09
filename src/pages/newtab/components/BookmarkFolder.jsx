@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { 
     IoFolderOpenOutline as FolderOpenIcon,
@@ -21,8 +21,6 @@ export default function BookmarkFolder({
     const [isOpen, setIsOpen] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
     const [showContextMenu, setShowContextMenu] = useState(false);
-    const panelRef = useRef(null);
-    const triggerRef = useRef(null);
 
     const effectiveDepth = Math.min(depth, MAX_NESTING_DEPTH);
     const zBase = 200 + effectiveDepth * 10;
@@ -80,19 +78,10 @@ export default function BookmarkFolder({
             }
         };
 
-        const handleClickOutside = (e) => {
-            if (panelRef.current && !panelRef.current.contains(e.target) &&
-                triggerRef.current && !triggerRef.current.contains(e.target)) {
-                closeFolder();
-            }
-        };
-
         document.addEventListener('keydown', handleKeyDown);
-        document.addEventListener('mousedown', handleClickOutside);
 
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
-            document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [isOpen, closeFolder]);
 
@@ -111,7 +100,6 @@ export default function BookmarkFolder({
             />
             
             <div
-                ref={panelRef}
                 className={`bookmark-folder-panel popup-mode ${
                     isClosing 
                         ? 'animate__animated animate__fadeOut animate__faster' 
@@ -259,7 +247,6 @@ export default function BookmarkFolder({
     return (
         <div className="bookmark-folder-container">
             <button
-                ref={triggerRef}
                 className="bookmark-item group"
                 onClick={toggleOpen}
                 type="button"

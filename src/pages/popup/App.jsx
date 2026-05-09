@@ -4,9 +4,12 @@ import QuickSitesBar from "../newtab/components/QuickSitesBar";
 import { useBookmarks } from "../newtab/hooks/useBookmarks";
 import { useQuickSites } from "../newtab/hooks/useQuickSites";
 import { useBookmarkSettings } from "../newtab/hooks/useBookmarkSettings";
+import { useTheme } from "../newtab/hooks/useTheme";
 import { IoGridOutline, IoListOutline, IoNewspaperOutline } from "react-icons/io5";
 
 function App() {
+    useTheme();
+
     const { bookmarks, loading } = useBookmarks();
     const { sites, addSite, editSite, removeSite } = useQuickSites();
     const { showBookmarks, showQuickSites, iconType, currentFont, bookmarkLayout, toggleBookmarkLayout } = useBookmarkSettings();
