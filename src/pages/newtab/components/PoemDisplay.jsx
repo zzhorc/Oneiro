@@ -33,7 +33,7 @@ export default function PoemDisplay({ poem, isAnimating, onBookmark, isBookmarke
         </a>
       </div>
 
-      <div id="poem-author-container" className="flex justify-center items-center gap-4">
+      <div id="poem-author-container" className="flex justify-center items-center gap-3">
         {poem.from && (
           <p className="text-3xl transition-all duration-300 hover:text-opacity-80">
             <a 
@@ -58,23 +58,20 @@ export default function PoemDisplay({ poem, isAnimating, onBookmark, isBookmarke
             </a>
           </p>
         )}
-      </div>
-
-      <div className="flex justify-center gap-4 mt-6">
         <button
           onClick={handleBookmark}
-          className={`p-2 rounded-full transition-all duration-300 ${
-            isBookmarked 
-              ? "text-yellow-500 bg-yellow-500/10 scale-110" 
-              : "text-base-content/30 hover:text-base-content/60 hover:bg-base-200/50"
+          className={`ml-1 p-1.5 rounded-full transition-all duration-300 ${
+            isBookmarked
+              ? "text-yellow-500 bg-yellow-500/10 scale-105"
+              : "text-base-content/25 hover:text-base-content/60 hover:bg-base-200/50"
           }`}
           title={isBookmarked ? "已收藏" : "收藏"}
           type="button"
         >
           {isBookmarked ? (
-            <BookmarkIcon className="w-5 h-5" />
+            <BookmarkIcon className="w-[18px] h-[18px]" />
           ) : (
-            <BookmarkOutlineIcon className="w-5 h-5" />
+            <BookmarkOutlineIcon className="w-[18px] h-[18px]" />
           )}
         </button>
       </div>

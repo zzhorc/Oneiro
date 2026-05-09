@@ -683,16 +683,14 @@
   position: relative;
 }
 
-/* 半透明遮罩层 */
+/* 透明点击层：负责关闭当前层级，不改变背景明暗 */
 .bookmark-folder-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.46);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background-color: transparent;
 }
 
 .bookmark-folder-panel {
@@ -884,6 +882,15 @@
   width: 100% !important;
 }
 
+.bookmark-folder-panel .bookmark-folder-grid.layout-magazine,
+.bookmark-folder-panel [class*="bookmark-folder-grid"].layout-magazine {
+  gap: 0.75rem 0.75rem !important;
+}
+
+.bookmark-folder-panel .bookmark-folder-grid:not(.layout-magazine):not(.layout-list) {
+  gap: 0.75rem 0.5rem !important;
+}
+
 /* 针对 Magazine 模式下的子项进行穿透式强制渲染 */
 .layout-magazine .bookmark-item,
 .layout-magazine .bookmark-folder-container .bookmark-item {
@@ -900,6 +907,15 @@
   /* 彻底杜绝内容溢出组件边界 */
 }
 
+.bookmark-folder-panel .layout-magazine .bookmark-item,
+.bookmark-folder-panel .layout-magazine .bookmark-folder-container .bookmark-item {
+  padding: 0.5rem 0.625rem !important;
+}
+
+.bookmark-folder-panel .bookmark-folder-grid:not(.layout-magazine):not(.layout-list) .bookmark-item {
+  padding: 0.5rem 0.375rem !important;
+}
+
 /* 列表模式控制 */
 .layout-list {
   grid-template-columns: 1fr !important;
@@ -914,6 +930,14 @@
   max-width: none !important;
   justify-content: flex-start !important;
   padding: 0.125rem 0.375rem !important;
+}
+
+.bookmark-folder-panel .bookmark-folder-grid.layout-list {
+  gap: 0.375rem !important;
+}
+
+.bookmark-folder-panel .layout-list .bookmark-item {
+  padding: 0.25rem 0.5rem !important;
 }
 
 /* 图标层级控制 (修正文件夹内图标不缩放的问题) */

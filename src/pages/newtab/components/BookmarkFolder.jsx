@@ -2,8 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { 
     IoFolderOpenOutline as FolderOpenIcon,
-    IoChevronBackOutline as BackIcon,
-    IoEllipsisHorizontal as MoreIcon
+    IoChevronBackOutline as BackIcon
 } from "react-icons/io5";
 import BookmarkItem from "./BookmarkItem";
 
@@ -20,7 +19,6 @@ export default function BookmarkFolder({
 }) {
     const [isOpen, setIsOpen] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
-    const [showContextMenu, setShowContextMenu] = useState(false);
 
     const effectiveDepth = Math.min(depth, MAX_NESTING_DEPTH);
     const zBase = 200 + effectiveDepth * 10;
@@ -63,11 +61,6 @@ export default function BookmarkFolder({
         e.preventDefault();
         closeFolder();
     }, [closeFolder]);
-
-    const handleMoreClick = useCallback((e) => {
-        e.stopPropagation();
-        setShowContextMenu(prev => !prev);
-    }, []);
 
     useEffect(() => {
         if (!isOpen) return;
@@ -149,14 +142,6 @@ export default function BookmarkFolder({
                             </span>
                         )}
                         <button
-                            onClick={handleMoreClick}
-                            className="p-1 rounded-md hover:bg-base-200/50 transition-colors opacity-60 hover:opacity-100"
-                            title="更多选项"
-                            type="button"
-                        >
-                            <MoreIcon className="w-4 h-4" />
-                        </button>
-                        <button
                             className="bookmark-folder-close"
                             onClick={handleOverlayClick}
                             type="button"
@@ -165,22 +150,6 @@ export default function BookmarkFolder({
                         </button>
                     </div>
                 </div>
-
-                {depth < MAX_NESTING_DEPTH && subFolderCount > 0 && (
-                    <div 
-                        className="flex items-center gap-2 px-4 py-2 bg-base-200/30 text-xs text-base-content/60 border-b border-base-200/50"
-                    >
-                        <div 
-                            className="w-2 h-2 rounded-full"
-                            style={{
-                                background: `linear-gradient(135deg, 
-                                    hsl(${depth * 60}, 70%, 60%), 
-                                    hsl(${(depth + 1) * 60}, 70%, 60%))`
-                            }}
-                        />
-                        <span>嵌套层级: {depth + 1}/{MAX_NESTING_DEPTH}</span>
-                    </div>
-                )}
 
                 {depth >= MAX_NESTING_DEPTH && subFolderCount > 0 && (
                     <div className="flex items-center gap-2 px-4 py-2 bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 text-xs border-b border-yellow-500/20">
@@ -263,11 +232,6 @@ export default function BookmarkFolder({
                     <FolderOpenIcon className="w-7 h-7 relative z-10" />
                 </div>
                 <span className="bookmark-label">{folder.title}</span>
-                {subFolderCount > 0 && (
-                    <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-base-200 text-[10px] flex items-center justify-center text-base-content/60">
-                        {subFolderCount}
-                    </span>
-                )}
             </button>
             {folderPanel}
         </div>
