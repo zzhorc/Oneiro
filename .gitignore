@@ -18,3 +18,7 @@ node_modules
 # AI assistance workflows
 .agents/
 release/
+
+# 本机开发辅助文件
+/.vscode/
+/assets/icon_script/
