@@ -8,6 +8,7 @@ import {
   IoContrastOutline as BwIcon,
   IoBookmarksOutline as BookmarkIcon,
   IoGlobeOutline as GlobeIcon,
+  IoGridOutline as GridIcon,
   IoChevronDownOutline as ChevronDownIcon,
   IoChevronUpOutline as ChevronUpIcon,
   IoListOutline as ManageIcon,
@@ -36,6 +37,8 @@ export default function SettingsPanel({
   onToggleBookmarks,
   showQuickSites,
   onToggleQuickSites,
+  maxIconsPerRow,
+  onMaxIconsPerRowChange,
   selectedCategories,
   onToggleCategory,
   bookmarks = [],
@@ -165,6 +168,23 @@ export default function SettingsPanel({
               {showQuickSites ? "开" : "关"}
             </span>
           </button>
+
+          <label className="settings-row" title="书签和常用网站在图标网格视图中，每行最多显示的图标数">
+            <span className="settings-row-icon">
+              <GridIcon className="w-5 h-5" />
+            </span>
+            <span className="settings-row-label">每行图标</span>
+            <input
+              className="settings-number-input"
+              type="number"
+              min="3"
+              max="12"
+              value={maxIconsPerRow}
+              onChange={(event) => onMaxIconsPerRowChange(event.target.value)}
+              aria-label="每行最多显示图标数"
+            />
+            <span className="settings-row-value">个</span>
+          </label>
 
           <button
             className={`settings-row ${favoriteContentCount === 0 ? "opacity-50 cursor-not-allowed" : ""}`}

@@ -5,10 +5,10 @@ import BookmarkFolder from "./BookmarkFolder";
 
 /**
  * 书签栏整体容器组件
- * 使用 CSS auto-fill Grid 自动适应窗口宽度
+ * 图标网格按用户设置的最大列数换行
  * 展开/收起基于实际渲染行数
  */
-export default function BookmarkBar({ bookmarks, loading, visibleRows, isExpanded, toggleExpand, iconType, layoutType = "grid" }) {
+export default function BookmarkBar({ bookmarks, loading, visibleRows, isExpanded, toggleExpand, iconType, layoutType = "grid", maxIconsPerRow = 9 }) {
     const gridRef = useRef(null);
     const [needsExpand, setNeedsExpand] = useState(false);
     const [maxHeight, setMaxHeight] = useState("none");
@@ -57,6 +57,7 @@ export default function BookmarkBar({ bookmarks, loading, visibleRows, isExpande
                 style={{
                     maxHeight: maxHeight,
                     overflow: maxHeight !== "none" ? "hidden" : "visible",
+                    "--max-icons-per-row": maxIconsPerRow,
                 }}
             >
                 {bookmarks.map((item) =>

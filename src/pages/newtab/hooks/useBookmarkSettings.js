@@ -18,6 +18,15 @@ const getStorage = () => {
 
 const DEFAULT_VISIBLE_ROWS = 2;
 const DEFAULT_ICON_TYPE = "favicon"; // "favicon" | "bw-favicon" | "letter"
+const DEFAULT_MAX_ICONS_PER_ROW = 9;
+const MIN_ICONS_PER_ROW = 3;
+const MAX_ICONS_PER_ROW = 12;
+
+function normalizeMaxIconsPerRow(value) {
+    const parsed = Number.parseInt(value, 10);
+    if (!Number.isFinite(parsed)) return DEFAULT_MAX_ICONS_PER_ROW;
+    return Math.min(MAX_ICONS_PER_ROW, Math.max(MIN_ICONS_PER_ROW, parsed));
+}
 
 /**
  * 管理书签与显示设置的 hook
@@ -39,6 +48,9 @@ export function useBookmarkSettings() {
     const [bookmarkLayout, setBookmarkLayout] = useState(() =>
         localStorage.getItem("bookmarkLayout") || "grid"
     );
+    const [maxIconsPerRow, setMaxIconsPerRow] = useState(() =>
+        normalizeMaxIconsPerRow(localStorage.getItem("maxIconsPerRow"))
+    );
 
     const [isLoaded, setIsLoaded] = useState(false);
 
@@ -53,7 +65,7 @@ export function useBookmarkSettings() {
             }
 
             try {
-                const keys = ["bookmarkVisibleRows", "bookmarkIconType", "showBookmarks", "showQuickSites", "bookmarkLayout"];
+                const keys = ["bookmarkVisibleRows", "bookmarkIconType", "showBookmarks", "showQuickSites", "bookmarkLayout", "maxIconsPerRow"];
                 const res = await storage.get(keys);
 
                 if (res.bookmarkVisibleRows !== undefined) setVisibleRows(Number.parseInt(res.bookmarkVisibleRows, 10));
@@ -61,6 +73,7 @@ export function useBookmarkSettings() {
                 if (res.showBookmarks !== undefined) setShowBookmarks(res.showBookmarks === "true");
                 if (res.showQuickSites !== undefined) setShowQuickSites(res.showQuickSites === "true");
                 if (res.bookmarkLayout !== undefined) setBookmarkLayout(res.bookmarkLayout);
+                if (res.maxIconsPerRow !== undefined) setMaxIconsPerRow(normalizeMaxIconsPerRow(res.maxIconsPerRow));
             } catch (e) {
                 console.error("Settings load error:", e);
             }
@@ -103,6 +116,13 @@ export function useBookmarkSettings() {
         if (storage) storage.set({ bookmarkLayout: bookmarkLayout });
     }, [bookmarkLayout, isLoaded]);
 
+    useEffect(() => {
+        if (!isLoaded) return;
+        localStorage.setItem("maxIconsPerRow", maxIconsPerRow.toString());
+        const storage = getStorage();
+        if (storage) storage.set({ maxIconsPerRow: maxIconsPerRow.toString() });
+    }, [maxIconsPerRow, isLoaded]);
+
     const toggleExpand = useCallback(() => {
         setIsExpanded((prev) => !prev);
     }, []);
@@ -135,11 +155,16 @@ export function useBookmarkSettings() {
         setShowQuickSites((prev) => !prev);
     }, []);
 
+    const setMaxIconsPerRowValue = useCallback((value) => {
+        setMaxIconsPerRow(normalizeMaxIconsPerRow(value));
+    }, []);
+
     return {
         visibleRows, isExpanded, toggleExpand, cycleVisibleRows,
         iconType, toggleIconType,
         showBookmarks, toggleShowBookmarks,
         showQuickSites, toggleShowQuickSites,
         bookmarkLayout, setBookmarkLayout, toggleBookmarkLayout,
+        maxIconsPerRow, setMaxIconsPerRow: setMaxIconsPerRowValue,
     };
 }

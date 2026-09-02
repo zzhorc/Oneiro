@@ -178,6 +178,22 @@
   flex-shrink: 0;
 }
 
+.settings-number-input {
+  width: 2.75rem;
+  padding: 0.125rem 0.25rem;
+  border: 1px solid oklch(from var(--fallback-bc, oklch(var(--bc) / 1)) l c h / 0.16);
+  border-radius: 0.375rem;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: center;
+}
+
+.settings-number-input:focus {
+  outline: none;
+  border-color: var(--fallback-p, oklch(var(--p) / 0.65));
+}
+
 .settings-rows-badge {
   font-size: 0.75rem;
   font-weight: 700;
@@ -277,8 +293,8 @@
 
 .quicksites-bar-grid {
   display: grid;
-  /* 默认 Grid 布局 */
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  /* 图标网格按用户设置的最大列数换行。 */
+  grid-template-columns: repeat(var(--max-icons-per-row, 9), minmax(0, 1fr));
   gap: 0.5rem 0.25rem;
   width: 100%;
   justify-items: center;
@@ -472,7 +488,7 @@
 
 .bookmark-bar-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  grid-template-columns: repeat(var(--max-icons-per-row, 9), minmax(0, 1fr));
   gap: 0.5rem 0.25rem;
   width: 100%;
   justify-items: center;
@@ -488,7 +504,7 @@
   align-items: center;
   text-decoration: none;
   color: inherit;
-  width: 80px;
+  width: min(80px, 100%);
   cursor: pointer;
   border: none;
   background: none;

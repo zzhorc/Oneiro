@@ -28,6 +28,7 @@ export default function App() {
     iconType, toggleIconType,
     showBookmarks, toggleShowBookmarks,
     showQuickSites, toggleShowQuickSites,
+    maxIconsPerRow, setMaxIconsPerRow,
   } = useBookmarkSettings();
   const { sites, addSite, editSite, removeSite } = useQuickSites();
   const [isQuickSitesExpanded, setIsQuickSitesExpanded] = useState(false);
@@ -140,6 +141,7 @@ export default function App() {
                   isExpanded={isExpanded}
                   toggleExpand={toggleExpand}
                   iconType={iconType}
+                  maxIconsPerRow={maxIconsPerRow}
                 />
               </>
             )}
@@ -156,6 +158,7 @@ export default function App() {
                   visibleRows={safeQuickSiteRows}
                   isExpanded={isQuickSitesExpanded}
                   toggleExpand={() => setIsQuickSitesExpanded(prev => !prev)}
+                  maxIconsPerRow={maxIconsPerRow}
                 />
               </>
             )}
@@ -176,6 +179,8 @@ export default function App() {
           onToggleBookmarks={toggleShowBookmarks}
           showQuickSites={showQuickSites}
           onToggleQuickSites={toggleShowQuickSites}
+          maxIconsPerRow={maxIconsPerRow}
+          onMaxIconsPerRowChange={setMaxIconsPerRow}
           selectedCategories={selectedCategories}
           onToggleCategory={toggleCategory}
           bookmarks={bookmarks}

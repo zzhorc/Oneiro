@@ -1,170 +1,99 @@
 <p align="center">
-  <img src="public/icon/256.png" alt="Oneiro" width="128" height="128" />
+  <img src="public/icon/256.png" alt="Oneiro 图标" width="112" height="112" />
 </p>
 
-<h1 align="center">oneiro</h1>
+<h1 align="center">Oneiro</h1>
+
+<p align="center">一款以诗词与书签为核心的浏览器新标签页扩展。</p>
 
 <p align="center">
-  取「梦」字致敬原项目「浮生梦」<br/>
-  <em>源自希腊语 oneiros（ὄνειρος），意为"梦"</em>
+  <a href="https://github.com/zzhorc/Oneiro/releases">下载 Release</a>
+  ·
+  <a href="#安装">安装</a>
+  ·
+  <a href="#使用说明">使用说明</a>
 </p>
 
-<p align="center">
-  一个优雅的 Chrome 新标签页扩展<br/>
-  在新标签页上展示中国经典诗词，以 Apple 风格展示浏览器书签
-</p>
+![Oneiro 新标签页预览](preview/chrome_light.png)
 
----
+## 功能
 
-## ✨ 功能特性
+### 诗词
 
-| 功能 | 说明 |
-|------|------|
-| 📖 经典诗词 | 新标签页展示中国经典诗词，完全离线数据 |
-| 🗂️ 文案来源 | 新增多个文案数据来源类别（诗词 / 歌词 / 文学 / 动画 / 游戏等），可在左下角设置菜单中选择 |
-| 🔖 书签栏 | Apple 风格圆角图标，展示浏览器书签栏内容 |
-| 🚀 常用网站 | 自定义专属常用网站快捷入口，支持自动获取图标 |
-| 📐 智能空间 | 动态感知屏幕空间，自动截降行数，时刻保持优雅留白 |
-| 📂 文件夹嵌套 | 毛玻璃弹出面板，支持多层递归展开 |
-| 🔄 实时同步 | 浏览器书签增删改即时反映 |
-| 🎨 7 种字体 | 多种中国风字体可切换，右下角显示当前字体名 |
-| 🌗 主题切换 | 浅色 / 深色 / 跟随系统三种模式 |
-| ⚙️ 自定义行数 | 书签展示行数 1-4 行可调 |
-| ⚡ 极速加载 | 完全离线运行，针对低功耗设备优化 |
-| 🪟 独立弹窗 | 点击扩展图标即可在任意页面呼出界面 |
+- 使用内置的多类别文案数据；可在设置中选择展示类别。
+- 点击标题、出处或作者可用所选搜索引擎检索；支持百度、Google、Bing 与 DuckDuckGo。
+- 可收藏文案，并切换为仅展示收藏内容。
 
-## 📸 预览
+### 书签与常用网站
 
-![浅色主题](preview/chrome_light.png)
+- 读取浏览器书签栏，并在书签变更时更新显示；支持多层文件夹展开。
+- 图标支持彩色网站图标、黑白图标和首字三种样式。
+- 可设置书签显示行数（1–4）和图标网格每行最大数量（3–12，默认 9）；空间不足时会自动收起并可展开查看。
+- 常用网站可添加、编辑、删除，并自动使用对应网站图标。
+- 扩展弹窗提供网格、杂志、列表三种浏览方式；书签管理可检测重复项、建立自定义分组及归档书签。
 
-![弹窗面板](preview/popup.png)
+### 外观与偏好
 
-![深色主题](preview/chrome_dark.png)
+- 浅色、深色与跟随系统主题；内置 7 种中文字体。
+- 提供高级视觉定制：背景色、渐变或本地图片；文字排版与间距；玻璃效果、阴影、粒子、光晕、视差和浮动动效。
+- 设置与常用网站保存在浏览器本地存储中。
 
-## 🛠️ 技术栈
+> 书签管理中的“归档”和“删除重复项”会操作浏览器的实际书签，请确认后再执行。
 
-`WXT` · `React` · `TailwindCSS v4` · `DaisyUI`
+## 使用说明
 
-## 📦 安装
+打开新标签页即可使用。左下角齿轮可调整主题、字体、展示内容和书签布局；点击浏览器工具栏中的 Oneiro 图标可打开独立导航面板。
 
-### 方式一：下载 Release 包
+常用网站支持右键编辑或删除。书签和常用网站过多时，点击区域下方的箭头展开或收起。
 
-前往 [Releases](../../releases) 页面下载对应浏览器的 zip 包：
+![Oneiro 弹窗面板预览](preview/popup.png)
 
-| 包名 | 适用浏览器 |
-|------|-----------|
-| `oneiro-<version>-chrome.zip` | Chrome |
-| `oneiro-<version>-edge.zip` | Edge |
-| `oneiro-<version>-firefox.zip` | Firefox |
+## 安装
 
-#### Chrome
+### 从 Release 安装
 
-1. 下载 `oneiro-<version>-chrome.zip` 并解压
-2. 打开 `chrome://extensions/`
-3. 开启右上角 **开发者模式**
-4. 点击 **加载已解压的扩展程序**，选择解压后的 `chrome-mv3` 文件夹
+在 [Releases](https://github.com/zzhorc/Oneiro/releases) 下载对应浏览器的压缩包并解压。
 
-#### Edge
+| 浏览器  | 加载方式                                                                                                   |
+| ------- | ---------------------------------------------------------------------------------------------------------- |
+| Chrome  | 打开 `chrome://extensions/`，开启“开发者模式”，选择“加载已解压的扩展程序”，再选择 `chrome-mv3` 文件夹。    |
+| Edge    | 打开 `edge://extensions/`，开启“开发人员模式”，选择“加载解压缩的扩展”，再选择 `edge-mv3` 文件夹。          |
+| Firefox | 打开 `about:debugging#/runtime/this-firefox`，选择“临时载入附加组件”，再选择 `firefox-mv2/manifest.json`。 |
 
-1. 下载 `oneiro-<version>-edge.zip` 并解压
-2. 打开 `edge://extensions/`
-3. 开启左下角 **开发人员模式**
-4. 点击 **加载解压缩的扩展**，选择解压后的 `edge-mv3` 文件夹
+Firefox 的临时扩展会在浏览器关闭后卸载，需要重新加载。
 
-#### Firefox
-
-1. 下载 `oneiro-<version>-firefox.zip` 并解压
-2. 打开 `about:debugging#/runtime/this-firefox`
-3. 点击 **临时载入附加组件**，选择解压后 `firefox-mv2` 文件夹中的 `manifest.json`
-
-> ⚠️ Firefox 临时扩展在关闭浏览器后会自动卸载，需重新加载。
-
-### 方式二：从源码构建
+### 从源码构建
 
 ```bash
-# Chrome / Edge
 pnpm install
-pnpm run build
+
+# Chrome / Edge
+pnpm build
 
 # Firefox
-pnpm run build --browser firefox
+pnpm build:firefox
 ```
 
-构建输出目录分别为 `.output/chrome-mv3/` 和 `.output/firefox-mv2/`。
+构建结果位于 `.output/chrome-mv3/` 或 `.output/firefox-mv2/`。
 
-## 📋 路线图
+## 开发
 
-- [x] Apple 风格书签栏
-- [x] 多种中文字体切换
-- [x] 明暗主题自动适配
-- [x] 自定义常用访问网站 (Quick Sites)
-- [ ] 导入更多自定义来源的诗词
-- [ ] 自定义背景
-- [ ] 搜索框
-- [ ] 自定义字体导入
+```bash
+pnpm dev
+```
 
-## 📝 更新日志
+技术栈：WXT、React、Tailwind CSS 4、DaisyUI。
 
-<details>
-  <summary><strong>v2.3.0</strong></summary>
+## 更新
 
-**新增**
-- 新增多个文案数据来源类别（诗词 / 歌词 / 文学 / 动画 / 游戏等），可在左下角设置菜单中选择。
+### v2.4.0
 
-**优化**
-- 诗句数据源扩展为 `sentences-bundle` 多类别，切换分类时自动重洗顺序。
-- 字体裁剪脚本覆盖新增文案/组件，并自动汇总 `assets/fonts/build/` 产物样式。
+- 书签和常用网站支持设置图标网格每行最大数量（3–12）。
 
-**修复**
-- 避免初次挂载时因分类初始化导致的重复取诗。
-</details>
+## 致谢
 
-<details>
-  <summary><strong>v2.2.0</strong></summary>
+本项目基于 [xxnuo/jizhi-mod](https://github.com/xxnuo/jizhi-mod) 二次开发，灵感来自 [unicar9/jizhi](https://github.com/unicar9/jizhi)。字体来自 [中文网字计划](https://chinese-font.netlify.app/)。
 
-**新增**
-- 新增扩展图标 Popup 面板：方便在任意页面呼出书签和常用网站面板。
-- 多样的书签视图矩阵：新增「杂志视图」与「列表视图」，满足不同排版需求，嵌套文件夹也会继承排版。
-- 独立的 Popup 展现逻辑：点击扩展触发的 Popup 弹窗永远会展现所有数据，不受主页设置隐藏的干扰。
+## License
 
-**修复**
-- Chrome Storage 原生数据迁移：平滑过渡历史网址记录，避免当用户手动覆盖更新插件时书签与常用网站丢失。
-</details>
-
-<details>
-  <summary><strong>v2.1.0</strong></summary>
-
-**新增**
-- 常用网站 (Quick Sites)：新增常用网站侧栏，支持自定义添加、编辑及自动获取 Favicon。
-- 动态高度自适应：书签与常用网站会根据当前屏幕高度动态分配最大行数并支持折叠，拒绝屏幕溢出。
-
-**优化**
-- 设置面板升级：重新划分「外观」与「显示」分组，引入直观的开关 (Toggle) 组件控制项展示。
-- 洗牌算法优化：采用 Fisher-Yates 洗牌算法降低诗句随机出现的重复性问题。
-</details>
-
-<details>
-  <summary><strong>v2.0.0</strong></summary>
-
-**新增**
-- Apple 风格书签栏，圆角图标展示浏览器书签。
-- 文件夹嵌套展开，毛玻璃弹出面板，支持多层递归。
-- 实时同步浏览器书签增删改，可自定义书签展示行数（1-4 行）。
-- 悬浮 tooltip 显示书签完整名称与网址，右下角显示当前字体名称。
-- 全新扩展图标：佛系体「梦」字 + 红色圆形背景。
-
-**优化**
-- 文件夹内文字统一使用霞鹜文楷。
-- 字体回退链优先使用霞鹜文楷，减少缺字问题。
-</details>
-
-## 鸣谢
-
-本项目基于 [xxnuo/jizhi-mod](https://github.com/xxnuo/jizhi-mod)（浮生梦 v1.3.3）二次开发。
-
-- 字体来自 [中文网字计划](https://chinese-font.netlify.app/)
-- 原始灵感来自 [unicar9/jizhi](https://github.com/unicar9/jizhi)（几枝）
-
-## 📄 License
-
-本项目基于 [MIT License](LICENSE) 协议开源。请自由享受并遵循开源协议。
+[MIT](LICENSE)
