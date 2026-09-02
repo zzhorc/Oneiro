@@ -120,7 +120,8 @@
   min-width: 200px;
   padding: 0.5rem;
   border-radius: 1rem;
-  font-family: "LXGW WenKai Light", 楷体, serif;
+  /* 设置菜单使用系统中文 UI 字体，避免裁剪展示字体缺字影响功能文案。 */
+  font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", "Hiragino Sans GB", sans-serif;
   background-color: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(24px) saturate(1.6);
   -webkit-backdrop-filter: blur(24px) saturate(1.6);

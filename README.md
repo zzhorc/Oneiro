@@ -14,7 +14,11 @@
   <a href="#使用说明">使用说明</a>
 </p>
 
-![Oneiro 新标签页预览](preview/chrome_light.png)
+## 预览
+
+![Oneiro 浅色主题](preview/chrome_light.png)
+
+![Oneiro 深色主题](preview/chrome_dark.png)
 
 ## 功能
 
@@ -85,6 +89,11 @@ pnpm dev
 技术栈：WXT、React、Tailwind CSS 4、DaisyUI。
 
 ## 更新
+
+### v2.4.1
+
+- 修复设置菜单部分中文在裁剪字体下显示异常的问题。
+- 更新浅色与深色主题预览图。
 
 ### v2.4.0
 
